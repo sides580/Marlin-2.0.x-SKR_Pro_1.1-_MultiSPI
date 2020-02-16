@@ -574,9 +574,9 @@
 // @section homing
 
 // Homing hits each endstop, retracts by these distances, then does a slower bump.
-#define X_HOME_BUMP_MM 5
-#define Y_HOME_BUMP_MM 5
-#define Z_HOME_BUMP_MM 2
+#define X_HOME_BUMP_MM 0
+#define Y_HOME_BUMP_MM 0
+#define Z_HOME_BUMP_MM 0
 #define HOMING_BUMP_DIVISOR { 4, 4, 8 }  // Re-Bump Speed Divisor (Divides the Homing Feedrate)
 //#define QUICK_HOME                     // If homing includes X and Y, do a diagonal move initially
 //#define HOMING_BACKOFF_MM { 2, 2, 2 }  // (mm) Move away from the endstops after homing
@@ -1588,7 +1588,7 @@
 
 // The ASCII buffer for serial input
 #define MAX_CMD_SIZE 96
-#define BUFSIZE 64
+#define BUFSIZE 124
 
 // Transmission to Host Buffer Size
 // To save 386 bytes of PROGMEM (and TX_BUFFER_SIZE+3 bytes of RAM) set to 0.
@@ -1597,7 +1597,7 @@
 // For debug-echo: 128 bytes for the optimal speed.
 // Other output doesn't need to be that speedy.
 // :[0, 2, 4, 8, 16, 32, 64, 128, 256]
-#define TX_BUFFER_SIZE 64
+#define TX_BUFFER_SIZE 128
 
 // Host Receive Buffer Size
 // Without XON/XOFF flow control (see SERIAL_XON_XOFF below) 32 bytes should be enough.
@@ -1882,51 +1882,52 @@
  */
 #if HAS_TRINAMIC
 
-  #define HOLD_MULTIPLIER    0.5  // Scales down the holding current from run current
+  #define HOLD_MULTIPLIER    0.75  // Scales down the holding current from run current
   #define INTERPOLATE       true  // Interpolate X/Y/Z_MICROSTEPS to 256
-
+  #define CURRENT_ALL 1200
+    #define CURRENT_HOME_ALL 1000
   #if AXIS_IS_TMC(X)
-    #define X_CURRENT       2000        // (mA) RMS current. Multiply by 1.414 for peak current.
-    #define X_CURRENT_HOME  X_CURRENT  // (mA) RMS current for sensorless homing
+    #define X_CURRENT       CURRENT_ALL        // (mA) RMS current. Multiply by 1.414 for peak current.
+    #define X_CURRENT_HOME  CURRENT_HOME_ALL  // (mA) RMS current for sensorless homing
     #define X_MICROSTEPS     32    // 0..256
     #define X_RSENSE          0.11
     #define X_CHAIN_POS      -1    // <=0 : Not chained. 1 : MCU MOSI connected. 2 : Next in chain, ...
   #endif
 
   #if AXIS_IS_TMC(X2)
-    #define X2_CURRENT      2000
-    #define X2_CURRENT_HOME X2_CURRENT
+    #define X2_CURRENT      CURRENT_ALL
+    #define X2_CURRENT_HOME CURRENT_HOME_ALL
     #define X2_MICROSTEPS    32
     #define X2_RSENSE         0.11
     #define X2_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(Y)
-    #define Y_CURRENT       2000
-    #define Y_CURRENT_HOME  Y_CURRENT
+    #define Y_CURRENT       CURRENT_ALL
+    #define Y_CURRENT_HOME  CURRENT_HOME_ALL
     #define Y_MICROSTEPS     32
     #define Y_RSENSE          0.11
     #define Y_CHAIN_POS      -1
   #endif
 
   #if AXIS_IS_TMC(Y2)
-    #define Y2_CURRENT      2000
-    #define Y2_CURRENT_HOME Y2_CURRENT
+    #define Y2_CURRENT      CURRENT_ALL
+    #define Y2_CURRENT_HOME CURRENT_HOME_ALL
     #define Y2_MICROSTEPS    32
     #define Y2_RSENSE         0.11
     #define Y2_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(Z)
-    #define Z_CURRENT       2000
-    #define Z_CURRENT_HOME  Z_CURRENT
+    #define Z_CURRENT       CURRENT_ALL
+    #define Z_CURRENT_HOME  CURRENT_HOME_ALL
     #define Z_MICROSTEPS     32
     #define Z_RSENSE          0.11
     #define Z_CHAIN_POS      -1
   #endif
 
   #if AXIS_IS_TMC(Z2)
-    #define Z2_CURRENT      2000
+    #define Z2_CURRENT      CURRENT_ALL
     #define Z2_CURRENT_HOME Z2_CURRENT
     #define Z2_MICROSTEPS    32
     #define Z2_RSENSE         0.11
@@ -1934,7 +1935,7 @@
   #endif
 
   #if AXIS_IS_TMC(Z3)
-    #define Z3_CURRENT      2000
+    #define Z3_CURRENT      CURRENT_ALL
     #define Z3_CURRENT_HOME Z3_CURRENT
     #define Z3_MICROSTEPS    32
     #define Z3_RSENSE         0.11
@@ -1942,42 +1943,42 @@
   #endif
 
   #if AXIS_IS_TMC(E0)
-    #define E0_CURRENT      2000
+    #define E0_CURRENT      CURRENT_ALL
     #define E0_MICROSTEPS    32
     #define E0_RSENSE         0.11
     #define E0_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(E1)
-    #define E1_CURRENT      2000
+    #define E1_CURRENT      CURRENT_ALL
     #define E1_MICROSTEPS    32
     #define E1_RSENSE         0.11
     #define E1_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(E2)
-    #define E2_CURRENT      2000
+    #define E2_CURRENT      CURRENT_ALL
     #define E2_MICROSTEPS    32
     #define E2_RSENSE         0.11
     #define E2_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(E3)
-    #define E3_CURRENT      2000
+    #define E3_CURRENT      CURRENT_ALL
     #define E3_MICROSTEPS    32
     #define E3_RSENSE         0.11
     #define E3_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(E4)
-    #define E4_CURRENT      2000
+    #define E4_CURRENT      CURRENT_ALL
     #define E4_MICROSTEPS    32
     #define E4_RSENSE         0.11
     #define E4_CHAIN_POS     -1
   #endif
 
   #if AXIS_IS_TMC(E5)
-    #define E5_CURRENT      2000
+    #define E5_CURRENT      CURRENT_ALL
     #define E5_MICROSTEPS    32
     #define E5_RSENSE         0.11
     #define E5_CHAIN_POS     -1
@@ -2097,12 +2098,12 @@
    * STEALTHCHOP_(XY|Z|E) must be enabled to use HYBRID_THRESHOLD.
    * M913 X/Y/Z/E to live tune the setting
    */
-  //#define HYBRID_THRESHOLD
+  #define HYBRID_THRESHOLD
 
-  #define X_HYBRID_THRESHOLD     100  // [mm/s]
-  #define X2_HYBRID_THRESHOLD    100
-  #define Y_HYBRID_THRESHOLD     100
-  #define Y2_HYBRID_THRESHOLD    100
+  #define X_HYBRID_THRESHOLD     40  // [mm/s]
+  #define X2_HYBRID_THRESHOLD    40
+  #define Y_HYBRID_THRESHOLD     40
+  #define Y2_HYBRID_THRESHOLD    40
   #define Z_HYBRID_THRESHOLD       3
   #define Z2_HYBRID_THRESHOLD      3
   #define Z3_HYBRID_THRESHOLD      3
@@ -2136,7 +2137,7 @@
    * IMPROVE_HOMING_RELIABILITY tunes acceleration and jerk when
    * homing and adds a guard period for endstop triggering.
    */
-  //#define SENSORLESS_HOMING // StallGuard capable drivers only
+  #define SENSORLESS_HOMING // StallGuard capable drivers only
 
   /**
    * Use StallGuard2 to probe the bed with the nozzle.
@@ -2151,9 +2152,10 @@
     #define X_STALL_SENSITIVITY  60
     #define X2_STALL_SENSITIVITY X_STALL_SENSITIVITY
     #define Y_STALL_SENSITIVITY  60
+    #define Y2_STALL_SENSITIVITY  Y_STALL_SENSITIVITY
     #define Z_STALL_SENSITIVITY  94
     //#define SPI_ENDSTOPS              // TMC2130 only
-    #define HOME_USING_SPREADCYCLE
+    //#define HOME_USING_SPREADCYCLE
     #define IMPROVE_HOMING_RELIABILITY
   #endif
 
@@ -2788,10 +2790,10 @@
  */
 //#define WIFISUPPORT
 #if ENABLED(WIFISUPPORT)
-  #define WIFI_SSID "Wifi SSID"
-  #define WIFI_PWD  "Wifi Password"
-  //#define WEBSUPPORT        // Start a webserver with auto-discovery
-  //#define OTASUPPORT        // Support over-the-air firmware updates
+  #define WIFI_SSID "incident"
+  #define WIFI_PWD  "sidelinger"
+  #define WEBSUPPORT        // Start a webserver with auto-discovery
+  #define OTASUPPORT        // Support over-the-air firmware updates
 #endif
 
 /**
