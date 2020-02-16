@@ -1,0 +1,51 @@
+image: python:2.7
+
+stages:
+ - test
+
+.job_template: &pio_run
+  script:
+    - cd Marlin
+    - mkdir build
+    - "platformio ci --lib='.' --board=uno --board=teensy31 --board=nodemcuv2 $PLATFORMIO_CI_EXTRA_ARGS"
+
+before_script:
+  - "pip install -U platformio"
+
+JsonGeneratorExample:
+  <<: *pio_run
+  variables:
+    PLATFORMIO_CI_EXTRA_ARGS: "--board=due"
+    PLATFORMIO_CI_SRC: examples/JsonGeneratorExample
+
+JsonHttpClient:
+  <<: *pio_run
+  variables:
+    PLATFORMIO_CI_SRC: examples/JsonHttpClient
+
+JsonParserExample:
+  <<: *pio_run
+  variables:
+    PLATFORMIO_CI_SRC: examples/JsonParserExample
+
+JsonServer:
+  <<: *pio_run
+  variables:
+    PLATFORMIO_CI_SRC: examples/JsonServer
+
+JsonUdpBeacon:
+  <<: *pio_run
+  variables:
+    PLATFORMIO_CI_SRC: examples/JsonUdpBeacon
+
+ProgmemExample:
+  stage: test
+  <<: *pio_run
+  variables:
+    PLATFORMIO_CI_SRC: examples/ProgmemExample
+
+StringExample:
+  stage: test
+  <<: *pio_run
+  variables:
+    PLATFORMIO_CI_SRC: examples/StringExample
