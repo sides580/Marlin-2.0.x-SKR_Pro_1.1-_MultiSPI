@@ -2790,8 +2790,8 @@
  */
 //#define WIFISUPPORT
 #if ENABLED(WIFISUPPORT)
-  #define WIFI_SSID "incident"
-  #define WIFI_PWD  "sidelinger"
+  #define WIFI_SSID "username"
+  #define WIFI_PWD  "password"
   #define WEBSUPPORT        // Start a webserver with auto-discovery
   #define OTASUPPORT        // Support over-the-air firmware updates
 #endif
